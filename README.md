@@ -2,7 +2,8 @@
 
 ## 상품 카테고리 목록 조회
  
-- 호출 URL : https://adm.snapplay.io/adm/main/store/cats?app_id=<YOUR_APP_ID>
+- 호출 URL : https://adm.snapplay.io/adm/main/store/cats?app_id=<YOUR_APP_ID>&pub_user_nm=<구매자>(&menu_nm=특정메뉴지정)
+- menu_nm : 매체에 설정된 기본 메뉴가 아닌 다른 메뉴를 사용하고 할 경우 지정한다. (사용할 메뉴명은 별도 요청)
 
 ```json
 {
@@ -26,7 +27,7 @@
 
 ## 특정 카테고리의 상품목록 조회
 
-- 호출 URL : https://adm.snapplay.io/adm/main/store/prds?app_id=<YOUR_APP_ID>&cat_id=<카테고리 ID>
+- 호출 URL : https://adm.snapplay.io/adm/main/store/prds?app_id=<YOUR_APP_ID>&cat_id=<카테고리 ID>&pub_user_nm=<구매자>
 
 ```json
 {
@@ -58,7 +59,8 @@
 
 ## 카테고리 목록과 상품목록을 한번에 조회
 
-- 호출 URL : https://adm.snapplay.io/adm/main/store/catprds?app_id=<YOUR_APP_ID>
+- 호출 URL : https://adm.snapplay.io/adm/main/store/catprds?app_id=<YOUR_APP_ID>&pub_user_nm=<구매자>(&menu_nm=특정메뉴지정)
+- menu_nm : 매체에 설정된 기본 메뉴가 아닌 다른 메뉴를 사용하고 할 경우 지정한다. (사용할 메뉴명은 별도 요청)
 - cat 배열에 카테고리 목록이 담겨 있으며 prd_ids 는 해당 카테고리에 속한 상품의 prd_id 의 목록이 담겨있다.
 - 상품 정보는 prd 배열에서 prd_id 로 매칭하여 확인할 수 있다.
 - prd_ids 에 존재하는 prd_id 의 상품 정보가 prd 배열에 없을 수도 있다. 실제 판매 중인 상품 목록만 내려준다.
@@ -111,13 +113,21 @@
 ```
 ## 상품 구매
 - 호출 URL : https://adm.snapplay.io/adm/main/store/reqpr?app_id=<YOUR_APP_ID>&pub_user_nm=<구매자>&user_info=<전화번호>&user_ip_addr=<구매자 기기 IP 주소>&prd_id=<구매할 상품의 prd_id>
-   - 위 파라메터 외에도 추가적으로 asid, adid 값을 전달할 수 있다. (별도 문의)
 - 구매 API 는 사용자 단말기에서 직접 호출 할 수 없다. 반드시 매체사의 서버에서 호출해야하며 해당 매체사 서버의 IP 주소는 등록되어 있어야한다. (별도 문의)
 - 구매 시 사용자의 잔여 포인트 등의 구매 가능 여부는 매체사에서 확인해야하며 구매 후에는 상품 가격에 해당되는 사용자의 포인트를 차감하도록 구현해야한다. (이에 대한 책임은 매체사에게 있음)
 - 상품 구매 금액은 sale_price + pub_cms 로 계산한다. pub_cms 는 처리 수수료이며 구매 취소시에도 반환되지 않는 금액이다. 예를들어 현금환급의 경우 이를 처리하기 위한 인력과 시간이 소요되므로 이를 보전하기위한 수수료 개념이다.
 - 구매후 전달되는 pin_no 는 사용자에게 바코드로 표시하여야한다. 바코드 표시 규칙은 아래와 같다.
-  - 쿠폰번호가 모두 숫자형인 경우
-    - 자릿수가 짝수인 경우 : Code 128C
-    - 자릿수가 홀수인 경우 : Code 128
-  - 쿠폰번호가 문자형인 경우
-    - Code 128
+  - tr_type : G 
+   - 쿠폰번호가 모두 숫자형인 경우
+     - 자릿수가 짝수인 경우 : Code 128C
+     - 자릿수가 홀수인 경우 : Code 128
+   - 쿠폰번호가 문자형인 경우
+     - Code 128
+ - tr_type : D
+   - Code 128
+
+- 반환값
+  - str_tr_id : 구매시 생성되는 거래 번호
+  - pin_no : 쿠폰 번호
+  - expr_dt : 만료 시간 (long type, timestamp 값(milli-seconds))
+  - pr_stat : 구매 결과 (S 성공, 그외 실패)
