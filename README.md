@@ -127,7 +127,18 @@
     - Code 128
 
 - 반환값
-  - str_tr_id : 구매시 생성되는 거래 번호
+  - str_tr_id : 구매시 생성되는 거래 번호 (판매사 생성값)
+  - tr_id : 구매시 생성되는 거래 번호 (Snap 생성값)
   - pin_no : 쿠폰 번호
   - expr_dt : 만료 시간 (long type, timestamp 값(milli-seconds))
   - pr_stat : 구매 결과 (S 성공, 그외 실패)
+
+## 쿠폰 상태 조회
+- 상품 구매시 전달받은 tr_id 를 사용하여 쿠폰의 상태를 조회할 수 있다.
+- 호출 URL : https://adm.snapplay.io/adm/main/store/reqstat?app_id=<YOUR_APP_ID>&pub_user_nm=<구매자>&tr_id=<TR_ID>
+- 결과 값
+  - ret_cd : 0 요청 성공, 그외 에러코드 (20011: 파라메터 누락 또는 오류, 20014: 구매 내역이 없음, 20019: 구매 실패 또는 이미 취소된 경우)
+  - expr_dt : 쿠폰 유효 기간 종료 일자 (YYYYMMDD 또는 YYYYMMDDHHmmSS)
+  - can_canel : 취소 가능 여부 (Y/N), N 이면 취소 불가로 이미 사용했음을 의미한다.
+  - swap_dt : 사용 일시 (YYYYMMDD 또는 YYYYMMDDHHmmSS)
+  - reason_txt : 쿠폰 사용처 또는 취소 불가 사유
