@@ -56,7 +56,6 @@
     ]
 }
 ```
-
 ## 카테고리 목록과 상품목록을 한번에 조회
 
 - 호출 URL : https://adm.snapplay.io/adm/main/store/catprds?app_id=<YOUR_APP_ID>&pub_user_nm=<구매자>(&menu_nm=특정메뉴지정)
@@ -109,6 +108,48 @@
             "img_url": "https://d1djcwwrtg2512.cloudfront.net/no_image.jpg"
         }
     ]
+}
+```
+## 특정 상품의 상세 정보
+
+- 호출 URL : https://adm.snapplay.io/adm/main/store/prd?prd_id=<조회할 상품의 prd_id>(&app_id=<YOUR_APP_ID>&cat_id=<카테고리 ID>&pub_user_nm=<구매자>)
+
+```json
+{
+  "ret_cd": 0,
+  "prd": [
+    {
+      "ok_dys": 89,
+      "swap_nm": "네이버페이포인트",
+      "img_url": "https://atom.donutbook.co.kr:14405/goods/GQHOO1MS9U7D2AUW96G4.jpg",
+      "prd_desc": "-포인트 등록은 유효기간까지만 등록 가능, ... 상품으로 유효기간 연장 및 환불 대상이 아닙니다.",
+      "tr_type": "D",
+      "prd_nm": "네이버페이 포인트 1만원",
+      "prd_id": 1312,
+      "sale_price": 10500
+    }
+  ]
+}
+```
+## 특정 상품의 상세 정보 (메뉴에서 판매가능한지 확인 로직 수행)
+
+- 호출 URL : https://adm.snapplay.io/adm/main/store/prdm?menu_nm=<메뉴이름>&prd_id=<조회할 상품의 prd_id>(&app_id=<YOUR_APP_ID>&cat_id=<카테고리 ID>&pub_user_nm=<구매자>)
+
+```json
+{
+  "ret_cd": 0,
+  "prd": [
+    {
+      "ok_dys": 89,
+      "swap_nm": "네이버페이포인트",
+      "img_url": "https://atom.donutbook.co.kr:14405/goods/GQHOO1MS9U7D2AUW96G4.jpg",
+      "prd_desc": "-포인트 등록은 유효기간까지만 등록 가능, ... 상품으로 유효기간 연장 및 환불 대상이 아닙니다.",
+      "tr_type": "D",
+      "prd_nm": "네이버페이 포인트 1만원",
+      "prd_id": 1312,
+      "sale_price": 10500
+    }
+  ]
 }
 ```
 ## 상품 구매
